@@ -4,10 +4,7 @@
 * Java GUI Database Program
 
 # Meeting Scheduler
-This software is a basic implementation of a database that features employee information. Contains a table with an automatically generated ID number, first name, last name, and meet date.<br>
-Features an easy-to-use GUI interface that allows the user to select a date and view which employees have a meeting. <br>
-Connects and interacts with the database using DBUtil.java class and methods. Utilizes Queries, ResultSets, and CachedRowSets to read and store information to and from the database. <br>
-Database values are stored in Employee.java Object fields, which are then stored in an ObservableList for viewing. The Employee class utilizes SimpleStringProperty to display in the TableView JavaFX element.
+<p>This software is a basic implementation of a database that features employee information. Contains a table with an automatically generated ID number, first name, last name, and meet date. Features an easy-to-use GUI interface that allows the user to select a date and view which employees have a meeting. Connects and interacts with the database using DBUtil.java class and methods. Utilizes Queries, ResultSets, and CachedRowSets to read and store information to and from the database. Database values are stored in Employee.java Object fields, which are then stored in an ObservableList for viewing. The Employee class utilizes SimpleStringProperty to display in the TableView JavaFX element.</p>
 
 # User Guide
 Select a date from the first date picker box to see which employees are scheduled for a meeting on that particular day.<br>
