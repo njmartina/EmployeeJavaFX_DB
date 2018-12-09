@@ -1,0 +1,31 @@
+.root{
+  -fx-background-color: #EDCBB1;
+
+}
+
+#empView .table-column {
+  -fx-alignment: CENTER;
+  -fx-background-color: #EDCBB1;
+}
+
+#empView {
+  -fx-background-color: #EDCBB1;
+  -fx-border-color: #000000;
+  -fx-border-width: 2;
+}
+
+#datePicker, #newDate {
+  -fx-border-color: #000000;
+  -fx-border-width: 2;
+}
+#textLabel1, #textLabel2, #textLabel3, #titleLabel {
+  -fx-text-fill: #000000;
+}
+
+#Button1, #Button2, #Button3 {
+  -fx-text-fill: #000000;
+  -fx-border-radius: 2;
+  -fx-border-width: 2;
+  -fx-border-color: #000000;
+  -fx-background-color: #929982;
+}
