@@ -3,12 +3,13 @@ package sample;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collection;
 import java.util.Iterator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListCell;
@@ -80,80 +81,107 @@ public class Scheduler {
   @FXML
   void addEmp(ActionEvent event) {
 
-    //Gets currently selected date from DatePicker
-    Date selectedDate = java.sql.Date.valueOf(datePicker.getValue());
-
-    //Iterates through total list of Employees, finds one that matches the selected one from ComboBox
-    //Sets the Employee's meeting date to the selected one
-    //Updates Employee in database with new meet_date
-    for (Employee r : empList) {
-      if (r.getEmployeeID() == empBox.getValue().getEmployeeID()) {
-        r.setMeet_date(selectedDate);
-        String updateStmt = "UPDATE EMPLOYEES " +
-            "SET MEETDATE = " + "'" + selectedDate + "'" +
-            "WHERE EMPLOYEEID = " + r.getEmployeeID();
-        try {
-          DButil.dbExecuteUpdate(updateStmt);
-        } catch (SQLException | ClassNotFoundException e) {
-          System.out.println("Error occured while update operation: " + e);
+    try {
+      //Gets currently selected date from DatePicker
+      //Iterates through total list of Employees, finds one that matches the selected one from ComboBox
+      //Sets the Employee's meeting date to the selected one
+      //Updates Employee in database with new meet_date
+      Date selectedDate = java.sql.Date.valueOf(datePicker.getValue());
+      for (Employee r : empList) {
+        if (r.getEmployeeID() == empBox.getValue().getEmployeeID()) {
+          r.setMeet_date(selectedDate);
+          String updateStmt = "UPDATE EMPLOYEES " +
+              "SET MEETDATE = " + "'" + selectedDate + "'" +
+              "WHERE EMPLOYEEID = " + r.getEmployeeID();
+          try {
+            DButil.dbExecuteUpdate(updateStmt);
+          } catch (SQLException | ClassNotFoundException e) {
+            System.out.println("Error occured while update operation: " + e);
+          }
         }
       }
-    }
+    } catch (NullPointerException e){
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.setTitle("Error");
+      alert.setHeaderText("Scheduling Error");
+      alert.setContentText("Please Select a Meeting Date and Employee from box");
 
+      alert.showAndWait();
+
+    }
     populateTable();
   }
 
   @FXML
   void changeDate(ActionEvent event) {
 
-    //Gets current date and selected Employee from TableView
-    Date selectedDate = java.sql.Date.valueOf(newDate.getValue());
-    Employee selectedEmp = empView.getSelectionModel().getSelectedItem();
-
-    //Iterates through total list of Employees, finds one that matches the selected one from TableView
-    //Sets the Employee's meeting date to selected one from new DatePicker
-    //Updates Employee in database with new meet_date
-    for (Employee r : empList) {
-      if (r.getEmployeeID() == selectedEmp.getEmployeeID()) {
-        r.setMeet_date(selectedDate);
-      }
-    }
-    String updateStmt = "UPDATE EMPLOYEES " +
-        "SET MEETDATE = " + "'" + selectedDate + "'" +
-        "WHERE EMPLOYEEID = " + selectedEmp.getEmployeeID();
     try {
-      DButil.dbExecuteUpdate(updateStmt);
-    } catch (SQLException | ClassNotFoundException e) {
-      System.out.println("Error occured while update operation: " + e);
-    }
-    populateTable();
+      //Gets current date and selected Employee from TableView
+      Date selectedDate = java.sql.Date.valueOf(newDate.getValue());
+      Employee selectedEmp = empView.getSelectionModel().getSelectedItem();
 
-  }
+      //Iterates through total list of Employees, finds one that matches the selected one from TableView
+      //Sets the Employee's meeting date to selected one from new DatePicker
+      //Updates Employee in database with new meet_date
+      for (Employee r : empList) {
+        if (r.getEmployeeID() == selectedEmp.getEmployeeID()) {
+          r.setMeet_date(selectedDate);
+        }
+      }
+      String updateStmt = "UPDATE EMPLOYEES " +
+          "SET MEETDATE = " + "'" + selectedDate + "'" +
+          "WHERE EMPLOYEEID = " + selectedEmp.getEmployeeID();
+      try {
+        DButil.dbExecuteUpdate(updateStmt);
+      } catch (SQLException | ClassNotFoundException e) {
+        System.out.println("Error occured while update operation: " + e);
+      }
+    } catch (NullPointerException e){
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.setTitle("Error");
+      alert.setHeaderText("Changing Date Error");
+      alert.setContentText("Please select an Employee from Table and New Date");
+
+      alert.showAndWait();
+    }
+      populateTable();
+
+    }
+
 
   @FXML
   void deleteEmp(ActionEvent event) {
 
-    //Gets currently selected Employee from TableView
-    Employee selectedEmp = empView.getSelectionModel().getSelectedItem();
-
-    //Iterates through total list of Employees, finds one that matches selected one from TableView
-    //Removes Employee from the list\
-    //Utilizes Iterator to avoid ConcurrentModificationException
-    Iterator<Employee> iter = empList.iterator();
-    while (iter.hasNext()){
-      Employee emp = iter.next();
-      if (emp.getEmployeeID() == selectedEmp.getEmployeeID())
-        iter.remove();
-    }
-
-    //Deletes selected Employee from the database
-    String updateStmt =
-        "DELETE FROM EMPLOYEES " +
-            "WHERE EMPLOYEEID =" + selectedEmp.getEmployeeID();
     try {
-      DButil.dbExecuteUpdate(updateStmt);
-    } catch (SQLException | ClassNotFoundException e) {
-      System.out.println("Error occured while delete operation: " + e);
+      //Gets currently selected Employee from TableView
+      Employee selectedEmp = empView.getSelectionModel().getSelectedItem();
+
+      //Iterates through total list of Employees, finds one that matches selected one from TableView
+      //Removes Employee from the list\
+      //Utilizes Iterator to avoid ConcurrentModificationException
+      Iterator<Employee> iter = empList.iterator();
+      while (iter.hasNext()) {
+        Employee emp = iter.next();
+        if (emp.getEmployeeID() == selectedEmp.getEmployeeID())
+          iter.remove();
+      }
+
+      //Deletes selected Employee from the database
+      String updateStmt =
+          "DELETE FROM EMPLOYEES " +
+              "WHERE EMPLOYEEID =" + selectedEmp.getEmployeeID();
+      try {
+        DButil.dbExecuteUpdate(updateStmt);
+      } catch (SQLException | ClassNotFoundException e) {
+        System.out.println("Error occured while delete operation: " + e);
+      }
+    } catch (NullPointerException e){
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.setTitle("Error");
+      alert.setHeaderText("Deleting Error");
+      alert.setContentText("Please select an Employee from Table to delete");
+
+      alert.showAndWait();
     }
     populateTable();
   }

@@ -19,9 +19,9 @@
       <DatePicker fx:id="datePicker" layoutX="92.0" layoutY="72.0" onAction="#dateSelect" />
       <Label fx:id="textLabel1" layoutX="75.0" layoutY="49.0" text="Select a meeting date to view employees" textFill="#ba1200" />
       <TableView fx:id="empView" layoutX="9.0" layoutY="109.0" maxHeight="268.0" maxWidth="138.0" prefHeight="268.0" prefWidth="138.0">
-        <columns>
-          <TableColumn fx:id="empColumn" prefWidth="135.0" text="Currently Attending" />
-        </columns>
+         <columns>
+            <TableColumn fx:id="empColumn" prefWidth="135.0" text="Currently Attending" />
+         </columns>
       </TableView>
       <Button fx:id="Button1" layoutX="165.0" layoutY="117.0" mnemonicParsing="false" onAction="#addEmp" text="Schedule Employee" />
       <Button fx:id="Button2" layoutX="165.0" layoutY="288.0" mnemonicParsing="false" onAction="#changeDate" text="Change Date" />
