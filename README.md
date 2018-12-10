@@ -17,4 +17,4 @@ From: http://bokardo.com/principles-of-user-interface-design/
 This software shows clarity in design, allowing for quick recognizition of functionality and ease of use. Only contains the basic elements needed as to not clutter the screen. Only one screen is used to provide quick actions with no need for transitions. Buttons and boxes are highlighted in black for a clear view on what the user can interact with. 
 
 # Demo
-![](icSAtuXQwC.gif)
+![](05Qfr22np4.gif)
