@@ -76,11 +76,13 @@ public class Employee {
   }
 
   public void setMeet_date(Date date){
-    this.meet_date = date;
+    Date storeDate = date;
+    this.meet_date = storeDate;
   }
 
   public Date getMeet_date(){
-    return meet_date;
+    Date returnDate = meet_date;
+    return returnDate;
   }
 
 }

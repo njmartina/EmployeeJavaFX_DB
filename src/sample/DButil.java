@@ -2,13 +2,11 @@ package sample;
 
 import com.sun.rowset.CachedRowSetImpl;
 import java.sql.Connection;
-import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javax.sql.rowset.CachedRowSet;
-import javax.xml.transform.Result;
+
 
 /**
  * Nicolo Martina, modified code from Prof. Vanselow and ONUR BASKIRT

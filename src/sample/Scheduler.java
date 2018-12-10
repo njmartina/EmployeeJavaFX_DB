@@ -3,6 +3,8 @@ package sample;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.Iterator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,7 +19,7 @@ import javafx.util.Callback;
 
 public class Scheduler {
 
-  private ObservableList<Employee> memList = FXCollections.observableArrayList();
+  private ObservableList<Employee> empList = FXCollections.observableArrayList();
   @FXML
   private DatePicker datePicker;
   @FXML
@@ -47,7 +49,7 @@ public class Scheduler {
         employee.setBoth_names(employee.getFirstName(), employee.getLastName());
         employee.setMeet_date(rsEmp.getDate("MEETDATE"));
         System.out.println(employee.getMeet_date());
-        memList.add(employee);
+        empList.add(employee);
       }
 
     } catch (SQLException | ClassNotFoundException e) {
@@ -66,7 +68,7 @@ public class Scheduler {
     //Sets ComboBox factory to custom factory to show full name
     empBox.setCellFactory(factory);
     empBox.setButtonCell(factory.call(null));
-    empBox.setItems(memList);
+    empBox.setItems(empList);
 
   }
 
@@ -84,7 +86,7 @@ public class Scheduler {
     //Iterates through total list of Employees, finds one that matches the selected one from ComboBox
     //Sets the Employee's meeting date to the selected one
     //Updates Employee in database with new meet_date
-    for (Employee r : memList) {
+    for (Employee r : empList) {
       if (r.getEmployeeID() == empBox.getValue().getEmployeeID()) {
         r.setMeet_date(selectedDate);
         String updateStmt = "UPDATE EMPLOYEES " +
@@ -111,7 +113,7 @@ public class Scheduler {
     //Iterates through total list of Employees, finds one that matches the selected one from TableView
     //Sets the Employee's meeting date to selected one from new DatePicker
     //Updates Employee in database with new meet_date
-    for (Employee r : memList) {
+    for (Employee r : empList) {
       if (r.getEmployeeID() == selectedEmp.getEmployeeID()) {
         r.setMeet_date(selectedDate);
       }
@@ -135,11 +137,13 @@ public class Scheduler {
     Employee selectedEmp = empView.getSelectionModel().getSelectedItem();
 
     //Iterates through total list of Employees, finds one that matches selected one from TableView
-    //Removes Employee from the list
-    for (Employee r : memList) {
-      if (r.getEmployeeID() == selectedEmp.getEmployeeID()) {
-        memList.remove(r);
-      }
+    //Removes Employee from the list\
+    //Utilizes Iterator to avoid ConcurrentModificationException
+    Iterator<Employee> iter = empList.iterator();
+    while (iter.hasNext()){
+      Employee emp = iter.next();
+      if (emp.getEmployeeID() == selectedEmp.getEmployeeID())
+        iter.remove();
     }
 
     //Deletes selected Employee from the database
@@ -167,7 +171,7 @@ public class Scheduler {
     ObservableList<Employee> currentEmps = FXCollections.observableArrayList();
 
     //Iterates through total list of Employees and finds when meet_date matches date selected
-    for (Employee r : memList) {
+    for (Employee r : empList) {
       if (r.getMeet_date().equals(selectedDate)) {
         currentEmps.add(r);
       }
